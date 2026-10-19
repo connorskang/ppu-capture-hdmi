@@ -89,7 +89,30 @@ The comments in this repository are bilingual (Chinese + English). Every row bel
 
 ## 4. 第三方归属 / Third-party Attribution
 
-### 4.1 nand2mario/nestang — GPL-3.0
+本节是本仓库**唯一**的第三方引用清单。除 4.2 的 nestang 外，下面每一条都只取"事实"或
+"规范数值"，没有复制任何代码或文档正文。
+This section is the **single consolidated inventory** of third-party references in this
+repository. Except for nestang in 4.2, every entry below cites a fact or a specification
+value only — no code and no document text is reproduced.
+
+### 4.1 汇总清单 / Consolidated inventory
+
+| # | 来源 / Source | 链接 / URL | 影响了什么 / What it informed | 许可 / Licence |
+|---|---|---|---|---|
+| 1 | **nand2mario/nestang** | <https://github.com/nand2mario/nestang> | `2C02` 调色板 RGB 表（`ppu-hdmi/rtl/nes_palette.v`）；Tang Nano 20K 引脚号（`src/boards/nano20k.cst`）；CEA-861 VIC 16 / VIC 4 光栅常数与 rPLL 配置值；`$2000` 语义与 PPU 时序常数的交叉核对。The `2C02` palette RGB table, the Tang Nano 20K pin numbers, the CEA-861 VIC 16 / VIC 4 raster constants and rPLL values, plus cross-checks of `$2000` semantics and PPU timing constants. | **GPL-3.0** —— 唯一带义务的复用 / the only obligation-bearing reuse |
+| 2 | fpganes（Ludvig Strigeus） | 经 nestang 间接 / inherited via nestang (`src/ppu.v`) | nestang 的上游项目；其版权行随 nestang 一并保留。nestang's own upstream; its copyright line is retained with nestang's. | GPL，如 nestang 源码所标 / GPL as marked in nestang |
+| 3 | **BreakingNESWiki**（emu-russia/breaks） | <https://github.com/emu-russia/breaks> | `PPU/pads.md`（引脚与 EXT 双向、`$2000[6]` 方向）、`PPU/mux.md`（EXT 4 位进/出、5 位调色板索引）、`PPU/rgb.md`（RP2C04 RGB PPU 引脚）。PPU pinout and EXT direction, the EXT multiplexer, and the RGB PPU pinout. | 引用 / cited reference |
+| 4 | **NESdev wiki** | <https://www.nesdev.org/wiki/PPU_registers>、<https://www.nesdev.org/wiki/PPU_palettes> | `$2000` 位含义（bit 2 = VRAM 增量、bit 6 = EXT 方向）；`2C02` 调色板 RGB 数值。`$2000` bit meanings and the `2C02` palette values. | 引用 / cited reference |
+| 5 | **NESdev 论坛存档（Hi-Def NES 帖）** | <https://archive.nes.science/nesdev-forums/f9/t12019.xhtml> | 既有改机如何从 VOUT 取 EXP 视频、如何用 VOUT 区分背景/精灵。Prior-art EXP-pin video extraction and BG/sprite discrimination. | 引用 / cited reference |
+| 6 | **BTTD《NTSC 2C02 Technical Reference》**（5th ed., 2004） | <https://www.nesdev.org/2C02%20technical%20reference.TXT> | PPU 引脚、寄存器与 EXT 行为的独立对照。Independent cross-check of PPU pins, registers and EXT behaviour. | 引用 / cited reference |
+| 7 | `nes-ppu` / `cge_nes` API 文档 | <https://docs.rs/nes-ppu/0.2.0/nes_ppu/constant.PPUCTRL_MSS.html> | `PPUCTRL_MSS`（0 = 从 EXT 读背景，1 = 在 EXT 输出颜色）及其"置位会短路"的警告。The master/slave bit semantics and the short-circuit warning. | 引用 / cited reference |
+| 8 | **NESRGB** | <https://etim.net.au/nesrgb/> | 既有改机方案：调色板写抓取、把 `EXT0..EXT3` 变成输出、用比较器从 VOUT 取 EXT4/消隐/同步。Prior art for palette-write capture, EXT output mode and comparator-based sync slicing. | 引用 / cited reference |
+| 9 | **CEA-861**（VIC 16 / VIC 4） | 标准文件，无在线引用 / standard document | 1080p30（2200×1125）与 720p60（1650×750）的消隐、同步与像素时钟。Blanking, sync and pixel-clock figures for both output formats. | 标准 / specification |
+| 10 | **Linux `v4l2-dv-timings.h`** | <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/include/uapi/linux/v4l2-dv-timings.h> | `V4L2_DV_BT_CEA_1280X720P60` 的 porch/sync 数值，用于 720p60 交叉核对（只取数值，未复制代码）。720p60 porch/sync numbers, cross-checked as values only. | GPL-2.0（仅引用数值 / values cited only） |
+| 11 | **DVI 1.0 / HDMI 1.4a §5.4**（Figure 5-7） | 标准文件，无在线引用 / standard document | `tmds_encoder.v` 按规范自行编写的 8b/10b 编码；未使用任何 HDMI IP 核，未实现 TERC4 / 数据岛 / 音频。The 8b/10b encoder written from the spec; no HDMI IP core used, no TERC4 / data islands / audio. | 标准 / specification |
+| 12 | **高云（Gowin）官方文档** | 随 Gowin EDA 安装 / shipped with Gowin EDA | 《Primitive User Guide》SUG283（`rPLL`/`CLKDIV`/`OSER10`/`ELVDS_OBUF`）与器件数据手册的 PLL 规格（`CLKOUT` ≤ 625 MHz）。Primitive usage and the PLL `CLKOUT` limit. | 厂商文档，描述性引用 / vendor docs, cited |
+
+### 4.2 nand2mario/nestang — GPL-3.0
 
 **中文**
 
@@ -117,24 +140,59 @@ The comments in this repository are bilingual (Chinese + English). Every row bel
 - Apart from the palette table data and those pin-number facts, no nestang source text
   was copied verbatim into this repository.
 
-### 4.2 其他引用 / Other references
+### 4.3 引用明细与落点 / Where each reference is used
 
 **中文**
 
-- 高云半导体（Gowin）的 `rPLL` / `CLKDIV` / `OSER10` / `ELVDS_OBUF` 原语用法，参照官方
-  《Primitive User Guide》(SUG283) 与器件数据手册的**描述性引用**，未复制任何文档正文。
-- `2C02` / `2A03` 的寄存器位含义（如 `$2000` bit 6 = EXT 输出方向）参照
-  BreakingNESWiki 与 nes-ppu API 文档的公开描述。
-- 所有第三方数据手册数值均为**引用**，不是转载。
+- **PPU 引脚、EXT 方向、RGB PPU**：BreakingNESWiki 的 *PPU Pinout*、*Multiplexer*、
+  *RGB PPU*。落点：`ppu-capture/REPORT.md` 附录 B、`docs/INTERCEPT-BOM.md`
+  「关键硬件要求」，以及 `ppu_write_guard.v` 顶部 `$2000[6]` 的资料来源注释。
+- **`$2000` 位含义与寄存器语义**：NESdev wiki *PPU registers*、`nes-ppu` 的 `PPUCTRL_MSS`
+  文档、`cge_nes` 的位图、BTTD《NTSC 2C02 Technical Reference》。四处互相印证后才写进
+  RTL；其中 `$2000[6]` 的极性仍是**来源推导、未实测**（见 `ppu-capture/REPORT.md` §6.2）。
+- **既有改机方案（只取事实，未复用其设计文件）**：NESRGB 与 NESdev 论坛存档的 Hi-Def NES
+  帖。它们解释了"调色板写抓取 + 比较器从 VOUT 取 EXT4/消隐/同步"这条路可行，但本仓库的
+  转接板、RTL 与时序预算都是自己做的。
+- **调色板 RGB 数值**：NESdev wiki *PPU palettes*，经 nestang 的 `src/nes2hdmi.sv` 落地为
+  `ppu-hdmi/rtl/nes_palette.v`（见 4.2）。
+- **视频时序**：CEA-861 的 VIC 16 / VIC 4；720p60 的 porch/sync 数值另与 Linux
+  `v4l2-dv-timings.h` 的 `V4L2_DV_BT_CEA_1280X720P60` 核对过，只取数值。
+  落点：`hdmi-core/rtl/hdmi_timing.v`、`hdmi-core/720P60_REPORT.md` §2。
+- **TMDS 编码**：DVI 1.0 / HDMI 1.4a §5.4 Figure 5-7。`tmds_encoder.v` 是按规范自己写的，
+  没有例化任何 HDMI IP 核，也没有实现 TERC4、数据岛、音频或 HDCP。
+- **FPGA 原语与器件极限**：高云《Primitive User Guide》SUG283 与器件数据手册的 PLL 规格。
+  这些是**描述性引用**，未复制文档正文；`CLKOUT` ≤ 625 MHz 这个上限正是 1080p60 判为
+  不可实现的依据（`hdmi-core/REPORT.md` §8）。
+- 所有第三方数据手册数值均为**引用**，不是转载；仓库内不含任何厂商文档副本。
 
 **English**
 
-- Gowin `rPLL` / `CLKDIV` / `OSER10` / `ELVDS_OBUF` primitive usage is a **descriptive
-  reference** to the official *Primitive User Guide* (SUG283) and the device datasheet;
-  no document text is reproduced.
-- `2C02` / `2A03` register-bit meanings (e.g. `$2000` bit 6 = EXT output direction) follow
-  public descriptions in the BreakingNESWiki and the nes-ppu API documentation.
-- All third-party datasheet values are **cited**, not reproduced.
+- **PPU pinout, EXT direction, RGB PPU** — BreakingNESWiki's *PPU Pinout*, *Multiplexer*
+  and *RGB PPU*. Landing points: `ppu-capture/REPORT.md` Appendix B,
+  `docs/INTERCEPT-BOM.md` ("critical hardware requirements"), and the source comments at the
+  top of `ppu_write_guard.v`.
+- **`$2000` bit meanings and register semantics** — the NESdev wiki *PPU registers* page,
+  the `nes-ppu` `PPUCTRL_MSS` docs, the `cge_nes` bit map and BTTD's *NTSC 2C02 Technical
+  Reference*. Four sources were cross-checked before anything went into RTL; the polarity
+  of `$2000[6]` is still **source-derived, not measured** (see `ppu-capture/REPORT.md` §6.2).
+- **Prior-art mods (facts only, none of their design files reused)** — NESRGB and the
+  archived Hi-Def NES NESdev thread. They show that "palette-write capture + comparators
+  slicing EXT4/blank/sync out of VOUT" is a workable route; the interposer, the RTL and the
+  timing budgets here are this project's own.
+- **Palette RGB values** — the NESdev wiki *PPU palettes* page, reaching this repository
+  through nestang's `src/nes2hdmi.sv` (see 4.2).
+- **Video timing** — CEA-861 VIC 16 / VIC 4; the 720p60 porch/sync numbers were additionally
+  checked against `V4L2_DV_BT_CEA_1280X720P60` in Linux `v4l2-dv-timings.h`, values only.
+  Landing points: `hdmi-core/rtl/hdmi_timing.v`, `hdmi-core/720P60_REPORT.md` §2.
+- **TMDS encoding** — DVI 1.0 / HDMI 1.4a §5.4, Figure 5-7. `tmds_encoder.v` was written
+  from the spec; no HDMI IP core is instantiated and no TERC4, data islands, audio or HDCP
+  are implemented.
+- **FPGA primitives and device limits** — Gowin's *Primitive User Guide* (SUG283) and the
+  device datasheet's PLL specification. These are **descriptive references**; no document
+  text is reproduced. The `CLKOUT` ≤ 625 MHz ceiling is exactly why 1080p60 is documented
+  as not achievable (`hdmi-core/REPORT.md` §8).
+- All third-party datasheet values are **cited**, not reproduced, and no vendor document is
+  copied into this repository.
 
 ---
 

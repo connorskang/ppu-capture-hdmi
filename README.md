@@ -72,6 +72,20 @@ PPU**. It consists of three independently verifiable parts:
 
 ---
 
+**Credits / 致谢：** 2C02 调色板表取自 [nand2mario/nestang](https://github.com/nand2mario/nestang)
+（GPL-3.0），板级引脚号与 CEA-861 光栅常数也对照过同一项目 —— 这也是本仓库整体按 GPL-3.0
+发布的原因。PPU 引脚 / EXT 方向与寄存器语义来自 NESdev wiki、emu-russia *BreakingNESWiki*
+与 BTTD 的 2C02 参考文档。全部第三方来源见 [NOTICE.md](NOTICE.md) §4。
+
+**Credits:** the 2C02 palette table is reused from
+[nand2mario/nestang](https://github.com/nand2mario/nestang) (GPL-3.0), which is why this
+repository is licensed GPL-3.0 as a whole. Board pin numbers and the CEA-861 raster constants
+were cross-checked against the same project; the PPU pinout, EXT direction and register
+semantics come from the NESdev wiki, the emu-russia *BreakingNESWiki* and BTTD's 2C02
+reference. Every third-party source is listed in [NOTICE.md](NOTICE.md) §4.
+
+---
+
 ## How this was built
 
 AI-assisted RTL and testbenches, with human direction and review. The status
