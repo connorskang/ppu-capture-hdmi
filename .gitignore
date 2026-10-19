@@ -1,0 +1,90 @@
+# AI-assisted; see NOTICE.md
+# 高云（Gowin）工程构建产物 / Gowin project build output
+impl/
+*.fs
+*.bit
+*.bin
+*.vg
+*.vo
+*.sdf
+*.pcf
+*.rao
+*.gao
+*.prj
+*.gprj.user
+*.gprj.user.*
+*.cst.bak
+*.sdc.bak
+*.v.bak
+*.bak
+*.orig
+*.rej
+~$*
+
+# 布局布线与综合报告（构建产物，不入库）
+# Place-and-route / synthesis reports (build output, not tracked)
+reports/
+**/reports/
+*.rpt
+*.rpt.txt
+*.rpt.html
+*.pin.html
+*.power.html
+*.tr.html
+*_tr_content.html
+*_syn.rpt.html
+*_syn_resource.html
+*.timing_paths
+timing_paths.txt
+pnr_report.txt
+build_final.log
+build.log
+
+# 时序 / 资源 / 引脚报告（HTML）与日志
+# Timing / resource / pin reports (HTML) and logs
+*.html
+*.log
+*.out.txt
+*.err.txt
+
+# 仿真产物 / Simulation output
+*.vcd
+*.fst
+*.lxt
+*.lxt2
+*.ghw
+*.wlf
+simv
+simv*
+*.vvp
+simulation_output*.txt
+tmds_pipe_equivalence.txt
+run_EXT_OUT_BIT*.log
+run.log
+
+# AI 代理工具的临时目录 / AI agent scratch directory
+.dsh-gowin/
+
+# 许可证文件：绝不允许提交 EDA 授权文件
+# Licence files: EDA licence files must never be committed
+*.lic
+gwlicense.ini
+
+# %TEMP% 镜像构建目录（脚本会把源码镜像到那里再编译）
+# %TEMP% mirror build directories (the scripts mirror sources there)
+tn20k_build_*/
+ppu_hdmi_build_*/
+ppu-intercept-sim-*/
+ppu-hdmi-sim-*/
+ppu-hdmi-720p-sim-*/
+cst-test*/
+enc-test*/
+
+# 操作系统 / 编辑器垃圾文件 / OS and editor junk
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/

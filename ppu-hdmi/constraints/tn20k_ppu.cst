@@ -1,0 +1,98 @@
+// AI-assisted; see NOTICE.md
+// Tang Nano 20K - GW2AR-LV18QN88C8/I7，器件版本 C
+// Tang Nano 20K - GW2AR-LV18QN88C8/I7, device version C
+// PPU 采集 -> HDMI 集成构建。
+// Integrated PPU capture -> HDMI build.
+//
+// 板级引脚与已上板验证的 hdmi-core 工程完全相同
+// （取自 nand2mario/nestang 的 nano20k.cst）：
+// 27 MHz 晶振 = 引脚 4；HDMI TMDS 差分对 33/34（时钟）、35/36、37/38、39/40；
+// LED 15/16。
+// The board-side pins are identical to the hardware-verified
+// hdmi-core project (taken from nand2mario/nestang nano20k.cst):
+// 27 MHz oscillator = pin 4; HDMI TMDS pairs 33/34 (clock), 35/36, 37/38,
+// 39/40; LEDs 15/16.
+//
+// !! 下面这些 PPU 侧端口只给了电气属性，*没有*给引脚位置。目前还没有转接板，
+//    因此它们没有经过验证的引脚分配；高云会自动布局。凭空编引脚号比明确说明
+//    这一点更糟。见 REPORT.md。
+// !! The PPU-side ports below are given electrical attributes only, NOT pin
+//    locations.  There is no interposer board yet, so there is no verified
+//    pinout for them; Gowin auto-places them.  Inventing pin numbers would be
+//    worse than leaving it explicit.  See REPORT.md.
+
+IO_LOC "sys_clk" 4;
+IO_PORT "sys_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+
+// HDMI
+IO_LOC "tmds_d_p[0]" 35,36;
+IO_PORT "tmds_d_p[0]" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "tmds_d_p[1]" 37,38;
+IO_PORT "tmds_d_p[1]" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "tmds_d_p[2]" 39,40;
+IO_PORT "tmds_d_p[2]" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "tmds_clk_p" 33,34;
+IO_PORT "tmds_clk_p" PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+
+// LED（低有效）/ LEDs (active low)
+IO_LOC "led[0]" 15;
+IO_PORT "led[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "led[1]" 16;
+IO_PORT "led[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8 BANK_VCCIO=3.3;
+
+// ---------------------------------------------------------------------------
+// PPU 侧信号：只有电气属性，没有引脚位置。
+// PPU-side signals: electrical attributes only, no pin locations.
+//
+// 如果没有 IO_PORT 语句，高云会把这些端口默认成 BANK_VCCIO=1.8，与板上使用的
+// 3.3 V bank 冲突，导致布局布线失败并报：
+//   ERROR (PR0003): Failed to place with '20 IOBUF(s) unPlaced
+// （以及 WARN (PR2042) BankVccio '1.8' ... conflicts）。所以在这里声明 bank
+// 电压。DRIVE 只对输出 / 双向端口合法。
+// Without an IO_PORT line Gowin defaults these to BANK_VCCIO=1.8, which
+// conflicts with the 3.3 V banks used by the board and makes P&R fail with
+//   ERROR (PR0003): Failed to place with '20 IOBUF(s) unPlaced
+// (plus WARN (PR2042) BankVccio '1.8' ... conflicts).  So the bank voltage is
+// declared here.  DRIVE is only legal on outputs / bidirectional ports.
+// ---------------------------------------------------------------------------
+IO_PORT "rst_n"             IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "ppu_pix_clk"       IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "capture_en"        IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "inject_req"        IO_TYPE=LVCMOS33 PULL_MODE=DOWN BANK_VCCIO=3.3;
+
+IO_PORT "cpu_cs_n"          IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "cpu_rw"            IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "cpu_a[0]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "cpu_a[1]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "cpu_a[2]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   BANK_VCCIO=3.3;
+IO_PORT "cpu_d[0]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[1]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[2]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[3]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[4]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[5]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[6]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "cpu_d[7]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+
+IO_PORT "ppu_cs_n"          IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_rw"            IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_a[0]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_a[1]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_a[2]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[0]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[1]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[2]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[3]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[4]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[5]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[6]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "ppu_d[7]"          IO_TYPE=LVCMOS33 PULL_MODE=UP   DRIVE=8 BANK_VCCIO=3.3;
+
+IO_PORT "ext_i[0]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "ext_i[1]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "ext_i[2]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "ext_i[3]"          IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "ext4_bg_sprite_i"  IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "hsync_i"           IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "vsync_i"           IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+IO_PORT "blank_i"           IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
